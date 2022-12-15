@@ -13,6 +13,8 @@ builder.Services.AddDbContext<DataContext>( opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 //Configure the HTTP request pipeline. pour le moment on a pas besoin de swagger midleware dans le pipeLine
@@ -27,6 +29,8 @@ app.UseHttpsRedirection();
 
 /// pour le moment on a pas besoin de authentification midleware dans le pipeLine
 // app.UseAuthorization();
+
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.MapControllers();
 
